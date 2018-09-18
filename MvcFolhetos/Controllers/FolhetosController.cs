@@ -15,9 +15,21 @@ namespace MvcFolhetos.Controllers
         private FolhetosDBContext db = new FolhetosDBContext();
 
         // GET: Folhetos
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(db.Folhetos.ToList());
+            //LINQ query
+            var folhetos = from m in db.Folhetos
+                         select m;
+            //Caso a searchbox tiver algo é filtrado o conteudo a mostrar
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                folhetos = folhetos.Where(s => s.NomeEmpresa.Contains(searchString));
+            }
+
+            return View(folhetos);
+
+
+            //return View(db.Folhetos.ToList());
         }
 
         // GET: Folhetos/Details/5
