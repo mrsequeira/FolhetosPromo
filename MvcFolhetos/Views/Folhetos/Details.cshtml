@@ -1,0 +1,66 @@
+﻿@model MvcFolhetos.Models.Folhetos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Folhetos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pasta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pasta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataInic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataFim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataFim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeEmpresa)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FolhetosID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
