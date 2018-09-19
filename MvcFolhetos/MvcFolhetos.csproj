@@ -159,6 +159,7 @@
     <Compile Include="Controllers\FolhetosController.cs" />
     <Compile Include="Controllers\HelloWorldController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,8 +171,17 @@
     <Compile Include="Migrations\201809181503505_NewActions.Designer.cs">
       <DependentUpon>201809181503505_NewActions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809182332075_Relation.cs" />
+    <Compile Include="Migrations\201809182332075_Relation.Designer.cs">
+      <DependentUpon>201809182332075_Relation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809190012072_a-b.cs" />
+    <Compile Include="Migrations\201809190012072_a-b.Designer.cs">
+      <DependentUpon>201809190012072_a-b.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Folhetos.cs" />
+    <Compile Include="Models\Tags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +229,11 @@
     <Content Include="Views\Folhetos\Details.cshtml" />
     <Content Include="Views\Folhetos\Edit.cshtml" />
     <Content Include="Views\Folhetos\Index.cshtml" />
+    <Content Include="Views\Tags\Create.cshtml" />
+    <Content Include="Views\Tags\Delete.cshtml" />
+    <Content Include="Views\Tags\Details.cshtml" />
+    <Content Include="Views\Tags\Edit.cshtml" />
+    <Content Include="Views\Tags\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,6 +257,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809181503505_NewActions.resx">
       <DependentUpon>201809181503505_NewActions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809182332075_Relation.resx">
+      <DependentUpon>201809182332075_Relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809190012072_a-b.resx">
+      <DependentUpon>201809190012072_a-b.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

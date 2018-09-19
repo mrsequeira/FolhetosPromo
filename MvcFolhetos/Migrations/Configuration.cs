@@ -22,6 +22,18 @@ namespace MvcFolhetos.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
 
+            // adiciona Tags
+            var tags = new List<Tags> {
+               new Tags {ID =1, Info ="Antevisão" },
+               new Tags {ID =2, Info ="Dia da mãe" },
+               new Tags {ID =3, Info ="Descontos" },
+               new Tags {ID =4, Info ="Só hoje" },
+            };
+            tags.ForEach(tt => context.Tags.AddOrUpdate(t => t.Info, tt));
+            context.SaveChanges();
+
+
+            //*********************************************************************
             // adiciona Folhetos
             var folhetos = new List<Folhetos> {
                new Folhetos {
@@ -31,7 +43,8 @@ namespace MvcFolhetos.Migrations
                    Pasta ="folheto1",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,7),
-                   NomeEmpresa ="PingoDoce"
+                   NomeEmpresa ="Pingo Doce",
+                   ListaDeTags = new List<Tags>{ tags[0] }
                },
                new Folhetos {
                    FolhetosID =2,
@@ -40,7 +53,8 @@ namespace MvcFolhetos.Migrations
                    Pasta ="folheto2",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
-                   NomeEmpresa ="PingoDoce"
+                   NomeEmpresa ="PingoDoce",
+                   ListaDeTags = new List<Tags>{ tags[0], tags[1], tags[2] }
                },
                new Folhetos {
                    FolhetosID =3,
@@ -49,13 +63,24 @@ namespace MvcFolhetos.Migrations
                    Pasta ="folheto3",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
-                   NomeEmpresa ="Continente"
+                   NomeEmpresa ="Continente",
+                   ListaDeTags = new List<Tags>{ tags[3] }
                },
+               new Folhetos {
+                   FolhetosID =4,
+                   Titulo ="OIIIIII ",
+                   Descricao ="OIIIIII e Só hojeOIIIIII OIIIIII especial 1 OIIIIII OIIIIII só 1 maio,",
+                   Pasta ="folheto3",
+                   DataInic =new DateTime(2018,5,1),
+                   DataFim =new DateTime(2018,5,1),
+                   NomeEmpresa ="OIIIIII",
+                   ListaDeTags = new List<Tags>{ }
+               }
             };
-            folhetos.ForEach(ff => context.Folhetos.AddOrUpdate(f => f.Titulo, ff));
+            folhetos.ForEach(ff => context.Folhetos.AddOrUpdate(f => f.FolhetosID, ff));
             context.SaveChanges();
 
-
+           
         }
     }
 }

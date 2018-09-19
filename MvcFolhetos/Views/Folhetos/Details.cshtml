@@ -57,8 +57,24 @@
         <dd>
             @Html.DisplayFor(model => model.NomeEmpresa)
         </dd>
-
     </dl>
+
+    <div class="form-group">
+        <span class="control-label col-md-2">Tags associados ao folheto</span>
+        <div class="col-md-10">
+            @{ string selected = "";}
+            @foreach (var item in ViewBag.ListaDeTags)
+            {
+                selected = "";
+                foreach (int opcaoID in Model.ListaDeTags.Select(b => b.ID))
+                {
+                    if (item.ID == opcaoID) { selected = "checked"; }
+                }
+                <input type="checkbox" name="opcoesEscolhidasDeTags" value="@item.ID" @selected disabled /> @item.Info
+                <br />
+            }
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.FolhetosID }) |
