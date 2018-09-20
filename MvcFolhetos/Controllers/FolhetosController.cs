@@ -12,9 +12,12 @@ namespace MvcFolhetos.Controllers
 {
     public class FolhetosController : Controller
     {
-        private FolhetosDBContext db = new FolhetosDBContext();
+        private ApplicationDbContext  db = new ApplicationDbContext ();
+
 
         // GET: Folhetos
+        // um user anónimo consegue aceder
+        [AllowAnonymous]
         public ActionResult Index(string searchString)
         {
             //LINQ query
@@ -203,7 +206,7 @@ namespace MvcFolhetos.Controllers
         }
 
 
-
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Delete/5
         public ActionResult Delete(int? id)
         {

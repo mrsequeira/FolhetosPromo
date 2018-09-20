@@ -3,16 +3,41 @@ namespace MvcFolhetos.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Relation : DbMigration
+    public partial class _new : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Folhetos",
+                c => new
+                    {
+                        FolhetosID = c.Int(nullable: false, identity: true),
+                        Titulo = c.String(nullable: false, maxLength: 100),
+                        Descricao = c.String(),
+                        Pasta = c.String(),
+                        DataInic = c.DateTime(nullable: false),
+                        DataFim = c.DateTime(nullable: false),
+                        NomeEmpresa = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.FolhetosID);
+            
             CreateTable(
                 "dbo.Tags",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Info = c.String(nullable: false, maxLength: 30),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.Utilizadores",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        NomeProprio = c.String(nullable: false),
+                        Apelido = c.String(),
+                        NomeRegistoDoUtilizador = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -38,7 +63,9 @@ namespace MvcFolhetos.Migrations
             DropIndex("dbo.TagsFolhetos", new[] { "Folhetos_FolhetosID" });
             DropIndex("dbo.TagsFolhetos", new[] { "Tags_ID" });
             DropTable("dbo.TagsFolhetos");
+            DropTable("dbo.Utilizadores");
             DropTable("dbo.Tags");
+            DropTable("dbo.Folhetos");
         }
     }
 }

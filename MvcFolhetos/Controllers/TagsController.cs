@@ -12,7 +12,7 @@ namespace MvcFolhetos.Controllers
 {
     public class TagsController : Controller
     {
-        private FolhetosDBContext db = new FolhetosDBContext();
+        private ApplicationDbContext  db = new ApplicationDbContext ();
 
         // GET: Tags
         public ActionResult Index()

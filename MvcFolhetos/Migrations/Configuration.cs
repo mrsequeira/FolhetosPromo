@@ -7,29 +7,39 @@ namespace MvcFolhetos.Migrations
     using System.Linq;
     using MvcFolhetos.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MvcFolhetos.Models.FolhetosDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MvcFolhetos.Models.ApplicationDbContext >
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "MvcFolhetos.Models.FolhetosDBContext";
+            //ContextKey = "MvcFolhetos.Models.ApplicationDbContext ";
         }
 
-        protected override void Seed(MvcFolhetos.Models.FolhetosDBContext context)
+        protected override void Seed(MvcFolhetos.Models.ApplicationDbContext  context)
         {
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
+            // adiciona Users
 
+            //*********************************************************************
+            //var users = new List<Users> {
+            //   new Users  {UserID = 1, Nome = "Miguel Dantas", Username = "MDantas", Password = "12345678", DataInsc = new DateTime(2017,03,31), DataNasc= new DateTime(1996,04,10), Tipo="Registado" },
+            //   new Users  {UserID = 2, Nome = "Rúben Pimentel", Username = "RPimentel", Password = "12345678", DataInsc =  new DateTime(2016,01,05), DataNasc = new DateTime(1987,05,09), Tipo="Registado" },
+            //   new Users  {UserID = 3, Nome = "Carlos Silva", Username = "CMSilva", Password = "12345678", DataInsc =  new DateTime(2016,01,01), DataNasc = new DateTime(1996,04,10), Tipo="Administrador" }
+            //};
+
+            //*********************************************************************
             // adiciona Tags
             var tags = new List<Tags> {
                new Tags {ID =1, Info ="Antevisão" },
                new Tags {ID =2, Info ="Dia da mãe" },
                new Tags {ID =3, Info ="Descontos" },
                new Tags {ID =4, Info ="Só hoje" },
+               new Tags {ID =4, Info ="Pingo Salgado" }
             };
-            tags.ForEach(tt => context.Tags.AddOrUpdate(t => t.Info, tt));
+            tags.ForEach(tt => context.Tags.AddOrUpdate(t => t.ID, tt));
             context.SaveChanges();
 
 

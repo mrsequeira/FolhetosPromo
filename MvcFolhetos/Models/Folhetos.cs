@@ -40,20 +40,13 @@ namespace MvcFolhetos.Models
 
 
         public virtual ICollection<Tags> ListaDeTags { get; set; }
-
-
-        ////FK para a tabela das Tags
-        //[ForeignKey("Tag")]
-        //public int TagFK { get; set; }
-        //public virtual Tags Tag { get; set; }
-
-
     }
 
-    public class FolhetosDBContext : DbContext
+    public class ApplicationDbContext  : DbContext
     {
         public DbSet<Tags> Tags { get; set; }
         public DbSet<Folhetos> Folhetos { get; set; }
-        
+        public DbSet<Utilizadores> Utilizadores { get; set; }
+
     }
 }
