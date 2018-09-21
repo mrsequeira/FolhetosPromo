@@ -50,7 +50,6 @@ namespace MvcFolhetos.Migrations
                    FolhetosID =1,
                    Titulo ="Antevisão Folheto PINGO DOCE Promoções de 1 a 7 maio ",
                    Descricao ="Só começa a 1 maio, mas como sempre em primeira mão no Blog!",
-                   Pasta ="folheto1",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,7),
                    NomeEmpresa ="Pingo Doce",
@@ -60,7 +59,6 @@ namespace MvcFolhetos.Migrations
                    FolhetosID =2,
                    Titulo ="Antevisão - 1 Maio PINGO DOCE só amanhã 25% em toda a loja",
                    Descricao ="Ora sempre se confirma o antecipado logo pela manhã de hoje AQUI, assim amanhã 1 maio teremos 25% de desconto em cartão Poupa Mais em toda loja Pingo Doce, o desconto acumula com as demais promoções, assim e de  forma a maximizar os descontos, consultem todos os folhetos abaixo, e o especial 1 maio, para verificarem as vossas necessidades e oportunidades, desejo um bom 1 de maio para todos, especialmente para os que neste dia feriado estão a trabalhar !",
-                   Pasta ="folheto2",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
                    NomeEmpresa ="PingoDoce",
@@ -70,21 +68,10 @@ namespace MvcFolhetos.Migrations
                    FolhetosID =3,
                    Titulo ="Destaques e Só hoje! ",
                    Descricao ="Destaques e Só hoje! Continente especial 1 maio - só 1 maio,",
-                   Pasta ="folheto3",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
                    NomeEmpresa ="Continente",
                    ListaDeTags = new List<Tags>{ tags[3] }
-               },
-               new Folhetos {
-                   FolhetosID =4,
-                   Titulo ="OIIIIII ",
-                   Descricao ="OIIIIII e Só hojeOIIIIII OIIIIII especial 1 OIIIIII OIIIIII só 1 maio,",
-                   Pasta ="folheto3",
-                   DataInic =new DateTime(2018,5,1),
-                   DataFim =new DateTime(2018,5,1),
-                   NomeEmpresa ="OIIIIII",
-                   ListaDeTags = new List<Tags>{ }
                }
             };
             folhetos.ForEach(ff => context.Folhetos.AddOrUpdate(f => f.FolhetosID, ff));

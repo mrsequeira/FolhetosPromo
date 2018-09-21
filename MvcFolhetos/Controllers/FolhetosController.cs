@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Permissions;
 using System.Web;
 using System.Web.Mvc;
 using MvcFolhetos.Models;
@@ -34,7 +37,7 @@ namespace MvcFolhetos.Controllers
 
             //return View(db.Folhetos.ToList());
         }
-
+        [AllowAnonymous]
         // GET: Folhetos/Details/5
         public ActionResult Details(int? id)
         {
@@ -47,30 +50,45 @@ namespace MvcFolhetos.Controllers
             {
                 return HttpNotFound();
             }
-
+            
+            var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens\\folheto" + id;
+            //var path = "~/imagens/folheto" + id ;
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
+            int count = dir.GetFiles().Length;
+            
+            //int fCount = Directory.GetFiles(path).Length;
+            
             // gerar a lista de objetos de Tags que podem ser associados aos folhetos
             ViewBag.ListaDeTags = db.Tags.OrderBy(b => b.Info).ToList();
-
+            ViewBag.nPaginas = count;
+            ViewBag.id = id;
             return View(folhetos);
         }
 
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Create
         public ActionResult Create()
         {
-            // gerar a lista de objetos de B que podem ser associados a A
+            // gerar a lista de tags que podem ser escolhidos
             ViewBag.ListaDeTags = db.Tags.OrderBy(b => b.Info).ToList();
 
             return View();
         }
 
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FolhetosID,Titulo,Descricao,Pasta,DataInic,DataFim,NomeEmpresa")] Folhetos folhetos, string[] opcoesEscolhidasDeTags)
+        public ActionResult Create([Bind(Include = "FolhetosID,Titulo,Descricao,Pasta,DataInic,DataFim,NomeEmpresa")] Folhetos folhetos, IEnumerable<HttpPostedFileBase> files,  string[] opcoesEscolhidasDeTags )
         {
-
+            // ModelState.IsValid --> confronta os dados fornecidos com o modelo
+            // se não respeitar as regras do modelo, rejeita os dados
+            if (!ModelState.IsValid)
+            {
+                return View(folhetos);
+            }
             /// avalia se o array com a lista das escolhas de objetos de B associados ao objeto do tipo A 
             /// é nula, ou não.
             /// Só poderá avanção se NÃO for nula
@@ -83,7 +101,41 @@ namespace MvcFolhetos.Controllers
                 return View(folhetos);
             }
 
+            //// **************** Guardar páginas dos folhetos ****************
+            //  [DatabaseGenerated(DatabaseGeneratedOption.Identity)] -> Efetua criação do ID através do SEQUENCE
+            var maxIdFolheto = db.Folhetos.Max(x => x.FolhetosID) + 1;
+            ////Criar pasta para poderem ser guardadas as fotografias do folheto
+            //var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens";
+            string subPath = "";
+            subPath = HttpContext.Server.MapPath("~/imagens/folheto" + maxIdFolheto);
+            System.IO.Directory.CreateDirectory(subPath);
+     
+            ////Percorrer todas as imagens recebidas
+            ////Efetua validaçãp
+            int i = 1;
+            foreach (var imagens in files)
+            {
+                //Alterar estes dois ifs para um unico só (Deixar para debugging apenas)
+                if (imagens != null)
+                {
+                    if (imagens.ContentLength > 0)
+                    {
+                        //depois colocar nomes especificos, mas por enquanto guardar fotos
+                        if (Path.GetExtension(imagens.FileName).ToLower() == ".jpeg")
+                        {
+                            //string imgDestino = Path.Combine(pathString, imagens.FileName);
+                            string filename = "pagina" + i+ ".jpeg";
+                            imagens.SaveAs(HttpContext.Server.MapPath("~/imagens/folheto" + maxIdFolheto + "/" ) + filename);
+                            i++;
+                            ViewBag.UploadSuccess = true;
+                        }
+                    }
+                }
+            }
+
+            // **************** Guardar tags associadas ao folheto ****************
             // criar uma lista com os objetos escolhidos de B
+
             List<Tags> listaDeObjetosDeTagsEscolhidos = new List<Tags>();
             foreach (string item in opcoesEscolhidasDeTags)
             {
@@ -94,7 +146,7 @@ namespace MvcFolhetos.Controllers
             }
 
             // adicionar a lista ao objeto de A
-            folhetos.ListaDeTags = listaDeObjetosDeTagsEscolhidos;  
+            folhetos.ListaDeTags = listaDeObjetosDeTagsEscolhidos;
 
             if (ModelState.IsValid)
             {
@@ -106,6 +158,7 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -125,6 +178,7 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -222,6 +276,7 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -5,7 +5,18 @@
 }
 
 <h2>Details</h2>
+<div>
 
+
+    <p>@Html.DisplayFor(model => model.Titulo)</p>
+    <p>@Html.DisplayFor(model => model.Descricao)</p>
+    <p> De @Html.DisplayFor(model => model.DataInic) a @Html.DisplayFor(model => model.DataFim)</p>
+    @for (var i = 1; i < @ViewBag.nPaginas + 1; i++)
+    {
+        <img srcset="@Url.Content("~/imagens/folheto" + ViewBag.id +"/pagina" + @i + ".jpeg")" width="100" height="147" />
+    }
+
+</div>
 <div>
     <h4>Folhetos</h4>
     <hr />
@@ -27,11 +38,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Pasta)
+            @Html.DisplayNameFor(model => model.Files)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Pasta)
+            @Html.DisplayFor(model => model.Files)
         </dd>
 
         <dt>

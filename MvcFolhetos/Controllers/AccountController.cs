@@ -427,7 +427,7 @@ namespace IdentitySample.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Folhetos");
         }
 
         //
@@ -465,7 +465,7 @@ namespace IdentitySample.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Folhetos");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

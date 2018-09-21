@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
+using System.Web;
 
 namespace MvcFolhetos.Models
 {
@@ -15,6 +17,7 @@ namespace MvcFolhetos.Models
             ListaDeTags = new HashSet<Tags>();
         }
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FolhetosID { get; set; }
 
         [StringLength(100)]
@@ -22,7 +25,9 @@ namespace MvcFolhetos.Models
         public string Titulo { get; set; }
 
         public string Descricao { get; set; }
-        public string Pasta { get; set; }
+
+        //[FileExtensions(FileTypes = new string[] { "image/png", "image/jpeg", "image/jpg", "image/gif" })]
+        public IEnumerable<HttpPostedFileBase> Files { get; set; }
 
         [Display(Name = "Data de Inicio")]
         [DataType(DataType.Date)]
@@ -47,6 +52,26 @@ namespace MvcFolhetos.Models
         public DbSet<Tags> Tags { get; set; }
         public DbSet<Folhetos> Folhetos { get; set; }
         public DbSet<Utilizadores> Utilizadores { get; set; }
+        
+        /// <summary>
+        /// Usa a sequência definida em <see cref="Multas_tA.Migrations.SequenciaIdAgentes"/>
+        /// para obter, de forma atómica, o ID de um agente.
+        /// </summary>
+        /// <returns>O próximo ID do agente.</returns>
+        public int GetIdFolheto()
+        {
+            // Um objeto que derive da classe "DbContext" (como o MultasDb)
+            // permite que seja executado SQL "raw", como no exemplo abaixo.
+            return this.Database
+                // <int> define o tipo de dados. Pode ser uma classe, os valores dos campos
+                // do SELECT serão copiados para o objeto.
+                .SqlQuery<int>("Select Next Value For [dbo].[SeqIdFolheto]")
+                // Single() é um operador do Linq. 
+                // Uso este porque só me interessa a primeira (e única) linha.
+                // Usaria ToList() se existissem várias, e First()/Last() se só quisesse
+                // a primera/última linha de muitas.
+                .Single();
+        }
 
     }
 }

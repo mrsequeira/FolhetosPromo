@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using MvcFolhetos.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -26,9 +27,8 @@ namespace IdentitySample.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("FolhetosDBContext", throwIfV1Schema: false)
-        {
-        }
+            : base("ApplicationDbContext", throwIfV1Schema: false)
+        { }
 
         static ApplicationDbContext()
         {
@@ -45,7 +45,6 @@ namespace IdentitySample.Models
         public virtual DbSet<Folhetos> Folhetos { get; set; } 
         public virtual DbSet<Tags> Tags { get; set; } 
         public virtual DbSet<Utilizadores> Utilizadores { get; set; }
-
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();  // impede a EF de 'pluralizar' os nomes das tabelas
