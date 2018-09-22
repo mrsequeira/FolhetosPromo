@@ -12,7 +12,7 @@ namespace MvcFolhetos.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            //ContextKey = "MvcFolhetos.Models.ApplicationDbContext ";
+            ContextKey = "MvcFolhetos.Models.ApplicationDbContext ";
         }
 
         protected override void Seed(MvcFolhetos.Models.ApplicationDbContext  context)
@@ -42,18 +42,29 @@ namespace MvcFolhetos.Migrations
             tags.ForEach(tt => context.Tags.AddOrUpdate(t => t.ID, tt));
             context.SaveChanges();
 
+            // adiciona categorias
+            var categorias = new List<Categorias> {
+               new Categorias {ID =1, Nome ="Supermercado"  },
+               new Categorias {ID =2, Nome ="Roupa"  },
+               new Categorias {ID =3, Nome ="Tecnologia" },
+               new Categorias {ID =4, Nome ="Livros" },
+               new Categorias {ID =5, Nome ="Casa e Docraçãp" }
+            };
+            categorias.ForEach(ll => context.Categorias.AddOrUpdate(l => l.ID, ll));
+            context.SaveChanges();
 
             //*********************************************************************
             // adiciona Folhetos
             var folhetos = new List<Folhetos> {
                new Folhetos {
-                   FolhetosID =1,
-                   Titulo ="Antevisão Folheto PINGO DOCE Promoções de 1 a 7 maio ",
-                   Descricao ="Só começa a 1 maio, mas como sempre em primeira mão no Blog!",
-                   DataInic =new DateTime(2018,5,1),
-                   DataFim =new DateTime(2018,5,7),
-                   NomeEmpresa ="Pingo Doce",
-                   ListaDeTags = new List<Tags>{ tags[0] }
+                    FolhetosID =1,
+                    Titulo ="Antevisão Folheto PINGO DOCE Promoções de 1 a 7 maio ",
+                    Descricao ="Só começa a 1 maio, mas como sempre em primeira mão no Blog!",
+                    DataInic =new DateTime(2018,5,1),
+                    DataFim =new DateTime(2018,5,7),
+                    ListaDeTags = new List<Tags>{ tags[0] },
+                    NomeEmpresa="Pingo Doce",
+                    ListaDeCategorias = new List<Categorias>{ categorias[0] }
                },
                new Folhetos {
                    FolhetosID =2,
@@ -61,8 +72,9 @@ namespace MvcFolhetos.Migrations
                    Descricao ="Ora sempre se confirma o antecipado logo pela manhã de hoje AQUI, assim amanhã 1 maio teremos 25% de desconto em cartão Poupa Mais em toda loja Pingo Doce, o desconto acumula com as demais promoções, assim e de  forma a maximizar os descontos, consultem todos os folhetos abaixo, e o especial 1 maio, para verificarem as vossas necessidades e oportunidades, desejo um bom 1 de maio para todos, especialmente para os que neste dia feriado estão a trabalhar !",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
-                   NomeEmpresa ="PingoDoce",
-                   ListaDeTags = new List<Tags>{ tags[0], tags[1], tags[2] }
+                   NomeEmpresa="Pingo Doce",
+                   ListaDeTags = new List<Tags>{ tags[0], tags[1], tags[2] },
+                   ListaDeCategorias = new List<Categorias>{ categorias[1] }
                },
                new Folhetos {
                    FolhetosID =3,
@@ -70,14 +82,35 @@ namespace MvcFolhetos.Migrations
                    Descricao ="Destaques e Só hoje! Continente especial 1 maio - só 1 maio,",
                    DataInic =new DateTime(2018,5,1),
                    DataFim =new DateTime(2018,5,1),
-                   NomeEmpresa ="Continente",
-                   ListaDeTags = new List<Tags>{ tags[3] }
+                   NomeEmpresa="Continente",
+                   ListaDeTags = new List<Tags>{ tags[3] },
+                   ListaDeCategorias = new List<Categorias>{ categorias[2] }
                }
             };
             folhetos.ForEach(ff => context.Folhetos.AddOrUpdate(f => f.FolhetosID, ff));
-            context.SaveChanges();
+            //context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
 
-           
         }
     }
 }

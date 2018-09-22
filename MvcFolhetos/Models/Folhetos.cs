@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -15,6 +16,7 @@ namespace MvcFolhetos.Models
         // e vice-versa.
         public Folhetos(){
             ListaDeTags = new HashSet<Tags>();
+            ListaDeCategorias = new HashSet<Categorias>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -27,7 +29,7 @@ namespace MvcFolhetos.Models
         public string Descricao { get; set; }
 
         //[FileExtensions(FileTypes = new string[] { "image/png", "image/jpeg", "image/jpg", "image/gif" })]
-        public IEnumerable<HttpPostedFileBase> Files { get; set; }
+        //public IEnumerable<HttpPostedFileBase> Files { get; set; }
 
         [Display(Name = "Data de Inicio")]
         [DataType(DataType.Date)]
@@ -44,15 +46,19 @@ namespace MvcFolhetos.Models
         public string NomeEmpresa { get; set; }
 
 
-        public virtual ICollection<Tags> ListaDeTags { get; set; }
-    }
 
+        public virtual ICollection<Tags> ListaDeTags { get; set; }
+        public virtual ICollection<Categorias> ListaDeCategorias { get; set; }
+    }
+    //Database context
     public class ApplicationDbContext  : DbContext
     {
-        public DbSet<Tags> Tags { get; set; }
-        public DbSet<Folhetos> Folhetos { get; set; }
-        public DbSet<Utilizadores> Utilizadores { get; set; }
-        
+
+        public virtual DbSet<Folhetos> Folhetos { get; set; }
+        public virtual DbSet<Categorias> Categorias { get; set; }
+        public virtual DbSet<Tags> Tags { get; set; }
+        public virtual DbSet<Utilizadores> Utilizadores { get; set; }
+       
         /// <summary>
         /// Usa a sequência definida em <see cref="Multas_tA.Migrations.SequenciaIdAgentes"/>
         /// para obter, de forma atómica, o ID de um agente.
@@ -71,6 +77,18 @@ namespace MvcFolhetos.Models
                 // Usaria ToList() se existissem várias, e First()/Last() se só quisesse
                 // a primera/última linha de muitas.
                 .Single();
+        }
+        /// <summary>
+        /// configura a forma como as tabelas são criadas
+        /// </summary>
+        /// <param name="modelBuilder"> objeto que referencia o gerador de base de dados </param>      
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
+            base.OnModelCreating(modelBuilder);
         }
 
     }

@@ -42,16 +42,18 @@ namespace IdentitySample.Models
             return new ApplicationDbContext();
         }
         // identificar as tabelas da base de dados
-        public virtual DbSet<Folhetos> Folhetos { get; set; } 
-        public virtual DbSet<Tags> Tags { get; set; } 
-        public virtual DbSet<Utilizadores> Utilizadores { get; set; }
+      
+        //public virtual DbSet<Folhetos> Folhetos { get; set; }
+        //public virtual DbSet<Categorias> Categorias { get; set; }
+        //public virtual DbSet<Tags> Tags { get; set; } 
+        //public virtual DbSet<Utilizadores> Utilizadores { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();  // impede a EF de 'pluralizar' os nomes das tabelas
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();  // impede a EF de 'pluralizar' os nomes das tabelas
+        //    modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
+        //    modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }
