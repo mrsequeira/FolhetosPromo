@@ -119,11 +119,9 @@
 <h2> Lista de folhetos </h2>
 
 <p>
-    @if (this.User.IsInRole("GestaoDeFolhetos"))
-    {
-        @Html.ActionLink("Criar novo folheto", "Create")
+   
+    @Html.ActionLink("Criar novo folheto", "Create")
 
-    }
 
     @using (Html.BeginForm())
     {

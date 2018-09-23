@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using IdentitySample.Models;
 using MvcFolhetos.Models;
 
 namespace MvcFolhetos.Controllers

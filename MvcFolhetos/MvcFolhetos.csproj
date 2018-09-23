@@ -209,9 +209,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809221312159_categories.cs" />
-    <Compile Include="Migrations\201809221312159_categories.Designer.cs">
-      <DependentUpon>201809221312159_categories.cs</DependentUpon>
+    <Compile Include="Migrations\201809231751437_start.cs" />
+    <Compile Include="Migrations\201809231751437_start.Designer.cs">
+      <DependentUpon>201809231751437_start.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809231755562_sequence.cs" />
+    <Compile Include="Migrations\201809231755562_sequence.Designer.cs">
+      <DependentUpon>201809231755562_sequence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809232117238_newusers.cs" />
+    <Compile Include="Migrations\201809232117238_newusers.Designer.cs">
+      <DependentUpon>201809232117238_newusers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -368,8 +376,14 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809221312159_categories.resx">
-      <DependentUpon>201809221312159_categories.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809231751437_start.resx">
+      <DependentUpon>201809231751437_start.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809231755562_sequence.resx">
+      <DependentUpon>201809231755562_sequence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809232117238_newusers.resx">
+      <DependentUpon>201809232117238_newusers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

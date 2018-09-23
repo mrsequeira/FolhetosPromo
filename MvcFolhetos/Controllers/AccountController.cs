@@ -134,6 +134,7 @@ namespace IdentitySample.Controllers
             }
         }
 
+        #region Register and login
         //
         // GET: /Account/Register
         [HttpGet]
@@ -154,7 +155,9 @@ namespace IdentitySample.Controllers
             {
                 var user = new ApplicationUser {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    NomeProprio = model.NomeProprio,
+                    Apelido = model.Apelido
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded){
@@ -163,11 +166,12 @@ namespace IdentitySample.Controllers
                         /// se houve sucesso com a criação de um utilizador
                         /// tenho de guardar os dados do utilizador que se registou
                         Utilizadores utilizador = new Utilizadores();
-                        utilizador = model.Utilizador;
-                        // associar estes dados com o utilizador q se registou
-                        utilizador.NomeRegistoDoUtilizador = user.UserName;
+                        utilizador.UserName = user.UserName;
+
+                        utilizador.NomeProprio = user.NomeProprio;
+                        utilizador.Apelido = user.Apelido;
                         // guardar os dados na base de dados
-                        MvcFolhetos.Models.ApplicationDbContext db = new MvcFolhetos.Models.ApplicationDbContext();
+                        ApplicationDbContext db = new ApplicationDbContext();
                         db.Utilizadores.Add(utilizador);
                         db.SaveChanges();
                     }
@@ -185,7 +189,10 @@ namespace IdentitySample.Controllers
                         /// eventualmente, enviar email ao Gestor do Sistema com o relato da ocorrência
                         /// eventualmente, reenviar à view para reescrever os dados
                     }
-
+                    //await UserManager.lo
+                    //Se for criado com sucesso efetua login
+                    //await UserManager.SignInAsync(user, isPersistent: false);
+                    //return RedirectToAction("Index", "Home");
 
                     //Calling the ASP.NET Identity API
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -201,6 +208,9 @@ namespace IdentitySample.Controllers
             return View(model);
         }
 
+    
+
+        #endregion
         //
         // GET: /Account/ConfirmEmail
         [HttpGet]

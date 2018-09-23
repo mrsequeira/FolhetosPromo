@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace MvcFolhetos.Models
-{
-    public class Utilizadores
+{ //: IdentityUser
+    public class Utilizadores 
     {
         /// <summary>
         /// os atributos q aqui vão ser adicionados
@@ -21,10 +22,11 @@ namespace MvcFolhetos.Models
         public string NomeProprio { get; set; }
         public string Apelido { get; set; }
 
+
         //*********************************************************
         // o atributo seguinte vai criar uma chave forasteira
         // para a tabela da 'autenticação'
         //*********************************************************
-        public string NomeRegistoDoUtilizador { get; set; }
+        public string UserName { get; set; }
     }
 }

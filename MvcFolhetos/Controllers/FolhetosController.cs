@@ -9,6 +9,7 @@ using System.Security.AccessControl;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.Mvc;
+using IdentitySample.Models;
 using MvcFolhetos.Models;
 
 namespace MvcFolhetos.Controllers
@@ -17,6 +18,7 @@ namespace MvcFolhetos.Controllers
     {
         private ApplicationDbContext  db = new ApplicationDbContext ();
 
+        #region CRUD - READ folhetos
 
         // GET: Folhetos
         // um user anónimo consegue aceder
@@ -65,7 +67,11 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
-        [Authorize(Roles = "GestaoDeFolhetos")]
+        #endregion
+
+        #region CRUD - CREAT folhetos
+
+        //[Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Create
         public ActionResult Create()
         {
@@ -75,7 +81,7 @@ namespace MvcFolhetos.Controllers
             return View();
         }
 
-        [Authorize(Roles = "GestaoDeFolhetos")]
+        //[Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -158,7 +164,11 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
-        [Authorize(Roles = "GestaoDeFolhetos")]
+        #endregion
+
+        #region CRUD - Update folhetos
+
+        //[Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -258,7 +268,9 @@ namespace MvcFolhetos.Controllers
             // visualizar View...
             return View(folhetos);
         }
+        #endregion
 
+        #region CRUD - Delete folhetos
 
         [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Delete/5
@@ -287,6 +299,9 @@ namespace MvcFolhetos.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        #endregion
+
 
         protected override void Dispose(bool disposing)
         {

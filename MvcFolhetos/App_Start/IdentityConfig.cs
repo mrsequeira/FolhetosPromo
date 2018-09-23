@@ -8,6 +8,7 @@ using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net;
 
 namespace IdentitySample.Models
 {
@@ -64,6 +65,22 @@ namespace IdentitySample.Models
             }
             return manager;
         }
+
+        //internal Task SignInAsync(ApplicationUser user, bool isPersistent)
+        //{
+        //    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+        //    var identity = await UserManager.CreateIdentityAsync(
+        //       user, DefaultAuthenticationTypes.ApplicationCookie);
+
+        //    AuthenticationManager.SignIn(
+        //       new AuthenticationProperties()
+        //       {
+        //           IsPersistent = isPersistent
+        //       }, identity);
+        //}
+
+
     }
 
     // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
@@ -113,56 +130,28 @@ namespace IdentitySample.Models
         public static void InitializeIdentityForEF(ApplicationDbContext db) {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "gestor@example.com";
-            const string password = "gestor@123456";
+            const string name = "admin@example.com";
+            const string password = "Admin@123456";
             const string roleName = "GestaoDeFolhetos";
-
             //Create Role Admin if it does not exist
             var role = roleManager.FindByName(roleName);
-            if (role == null) {
+            if (role == null)
+            {
                 role = new IdentityRole(roleName);
                 var roleresult = roleManager.Create(role);
             }
-
             var user = userManager.FindByName(name);
-            if (user == null) {
+            if (user == null)
+            {
                 user = new ApplicationUser { UserName = name, Email = name };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
             }
-
             // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name)) {
+            if (!rolesForUser.Contains(role.Name))
+            {
                 var result = userManager.AddToRole(user.Id, role.Name);
-            }
-
-
-            const string nome = "admin@example.com";
-            const string pass = "Admin@123456";
-            const string adminrole = "Admin";
-
-            //Create Role Admin if it does not exist
-            var roles = roleManager.FindByName(adminrole);
-            if (roles == null)
-            {
-                roles = new IdentityRole(adminrole);
-                var roleresult = roleManager.Create(roles);
-            }
-
-            var users = userManager.FindByName(nome);
-            if (users == null)
-            {
-                users = new ApplicationUser { UserName = nome, Email = nome };
-                var result = userManager.Create(users, pass);
-                result = userManager.SetLockoutEnabled(users.Id, false);
-            }
-
-            // Add user admin to Role Admin if not already added
-            var rolesForUsers = userManager.GetRoles(users.Id);
-            if (!rolesForUsers.Contains(roles.Name))
-            {
-                var result = userManager.AddToRole(users.Id, roles.Name);
             }
         }
 

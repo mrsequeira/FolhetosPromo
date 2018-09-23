@@ -5,9 +5,10 @@ namespace MvcFolhetos.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using IdentitySample.Models;
     using MvcFolhetos.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MvcFolhetos.Models.ApplicationDbContext >
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext >
     {
         public Configuration()
         {
@@ -15,7 +16,7 @@ namespace MvcFolhetos.Migrations
             ContextKey = "MvcFolhetos.Models.ApplicationDbContext ";
         }
 
-        protected override void Seed(MvcFolhetos.Models.ApplicationDbContext  context)
+        protected override void Seed(ApplicationDbContext  context)
         {
             //  This method will be called after migrating to the latest version.
 

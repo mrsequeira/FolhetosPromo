@@ -86,8 +86,14 @@ namespace IdentitySample.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+
         //Objeto do tipo utilizador para associar todos os atributos
         public Utilizadores Utilizador { get; set; }
+
+        [Display(Name = "Nome Próprio")]
+        public string NomeProprio { get; set; }
+        public string Apelido { get; set; }
+
     }
 
     public class ResetPasswordViewModel
