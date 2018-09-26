@@ -71,7 +71,7 @@ namespace MvcFolhetos.Controllers
 
         #region CRUD - CREAT folhetos
 
-        //[Authorize(Roles = "GestaoDeFolhetos")]
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Create
         public ActionResult Create()
         {
@@ -109,11 +109,22 @@ namespace MvcFolhetos.Controllers
 
             //// **************** Guardar páginas dos folhetos ****************
             //  [DatabaseGenerated(DatabaseGeneratedOption.Identity)] -> Efetua criação do ID através do SEQUENCE
-            var maxIdFolheto = db.Folhetos.Max(x => x.FolhetosID) + 1;
+            //var maxIdFolheto = db.Folhetos.Max(x => x.FolhetosID) + 1;
             ////Criar pasta para poderem ser guardadas as fotografias do folheto
             //var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens";
+            var newfolheto = new Folhetos {
+                FolhetosID = db.GetIdFolheto(),
+                Titulo = folhetos.Titulo,
+                Descricao = folhetos.Descricao,
+                DataInic = folhetos.DataInic,
+                DataFim = folhetos.DataFim,
+                NomeEmpresa = folhetos.NomeEmpresa
+            };
             string subPath = "";
-            subPath = HttpContext.Server.MapPath("~/imagens/folheto" + maxIdFolheto);
+            //int newID = 0;
+            //newfolheto.FolhetosID = db.GetIdFolheto();
+       
+            subPath = HttpContext.Server.MapPath("~/imagens/folheto" + newfolheto.FolhetosID);
             System.IO.Directory.CreateDirectory(subPath);
      
             ////Percorrer todas as imagens recebidas
@@ -131,7 +142,7 @@ namespace MvcFolhetos.Controllers
                         {
                             //string imgDestino = Path.Combine(pathString, imagens.FileName);
                             string filename = "pagina" + i+ ".jpeg";
-                            imagens.SaveAs(HttpContext.Server.MapPath("~/imagens/folheto" + maxIdFolheto + "/" ) + filename);
+                            imagens.SaveAs(HttpContext.Server.MapPath("~/imagens/folheto" + newfolheto.FolhetosID + "/" ) + filename);
                             i++;
                             ViewBag.UploadSuccess = true;
                         }
@@ -152,11 +163,11 @@ namespace MvcFolhetos.Controllers
             }
 
             // adicionar a lista ao objeto de A
-            folhetos.ListaDeTags = listaDeObjetosDeTagsEscolhidos;
-
+            newfolheto.ListaDeTags = listaDeObjetosDeTagsEscolhidos;
+            //newfolheto.FolhetosID = newID;
             if (ModelState.IsValid)
             {
-                db.Folhetos.Add(folhetos);
+                db.Folhetos.Add(newfolheto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -168,7 +179,7 @@ namespace MvcFolhetos.Controllers
 
         #region CRUD - Update folhetos
 
-        //[Authorize(Roles = "GestaoDeFolhetos")]
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // GET: Folhetos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -181,31 +192,39 @@ namespace MvcFolhetos.Controllers
             {
                 return HttpNotFound();
             }
-
+            var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens\\folheto" + id;
+            //var path = "~/imagens/folheto" + id ;
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
+            int count = dir.GetFiles().Length;
+            ViewBag.nPaginas = count;
             // gerar a lista de objetos de B que podem ser associados a A
             ViewBag.ListaDeTags = db.Tags.OrderBy(b => b.Info).ToList();
-
+            ViewBag.id = id;
             return View(folhetos);
         }
 
-        [Authorize(Roles = "GestaoDeFolhetos")]
+        //[Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FolhetosID,Titulo,Descricao,Pasta,DataInic,DataFim,NomeEmpresa")] Folhetos folhetos, string[] opcoesEscolhidasDeTags)
+        public ActionResult Edit([Bind(Include = "FolhetosID,Titulo,Descricao,Pasta,DataInic,DataFim,NomeEmpresa")] Folhetos folhetos, IEnumerable<HttpPostedFileBase> files, string[] opcoesEscolhidasDeTags)
         {
             // ler da BD o objeto que se pretende editar
             var aa = db.Folhetos.Include(b => b.ListaDeTags).Where(b => b.FolhetosID == folhetos.FolhetosID).SingleOrDefault();
 
             //Por equanto apenas estes 3 podem ser alterados
-            if (ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
                 aa.Titulo = folhetos.Titulo;
                 aa.Descricao = folhetos.Descricao;
                 aa.NomeEmpresa = folhetos.NomeEmpresa;
+                aa.DataInic = folhetos.DataInic;
+                aa.DataFim = folhetos.DataFim;
             }
-            else {
+            else
+            {
                 // gerar a lista de objetos de B que podem ser associados a A
                 ViewBag.ListaDeTags = db.Tags.OrderBy(b => b.Info).ToList();
                 // devolver o controlo à View
@@ -215,7 +234,6 @@ namespace MvcFolhetos.Controllers
             // tentar fazer o UPDATE
             if (TryUpdateModel(aa, "", new string[] { nameof(aa.Titulo), nameof(aa.NomeEmpresa), nameof(aa.ListaDeTags) }))
             {
-
                 // obter a lista de elementos de B
                 var elementosDeTags = db.Tags.ToList();
 
@@ -268,6 +286,7 @@ namespace MvcFolhetos.Controllers
             // visualizar View...
             return View(folhetos);
         }
+
         #endregion
 
         #region CRUD - Delete folhetos
@@ -285,19 +304,69 @@ namespace MvcFolhetos.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.ListaDeTags = db.Tags.OrderBy(b => b.Info).ToList();
+
             return View(folhetos);
         }
 
-        [Authorize(Roles = "GestaoDeFolhetos")]
+
+        //https://stackoverflow.com/questions/17723626/entity-framework-remove-vs-deleteobject
+        //[Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id , string[] opcoesEscolhidasDeTags)
         {
             Folhetos folhetos = db.Folhetos.Find(id);
-            db.Folhetos.Remove(folhetos);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            List<Tags> listaDeObjetosDeTagsEscolhidos = new List<Tags>();
+
+            var aa = db.Folhetos.Include(b => b.ListaDeTags).Where(b => b.FolhetosID == folhetos.FolhetosID).SingleOrDefault();
+            System.Diagnostics.Debug.WriteLine(aa);
+            // obter a lista de elementos de B
+            //var elementosDeTags = db.Tags.ToList();
+
+            //if (opcoesEscolhidasDeTags != null)
+            //{
+            //    // se existirem opções escolhidas, vamos associá-las
+            //    foreach (var bb in elementosDeTags)
+            //    {
+            //        if (opcoesEscolhidasDeTags.Contains(bb.ID.ToString()))
+            //        {
+            //            // se uma opção escolhida ainda não está associada, cria-se a associação
+            //            if (!aa.ListaDeTags.Contains(bb))
+            //            {
+            //                aa.ListaDeTags.Add(bb);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // caso exista associação para uma opção que não foi escolhida, 
+            //            // remove-se essa associação
+            //            aa.ListaDeTags.Remove(bb);
+            //        }
+            //    }
+            //}
+            string subPath = "";
+            subPath = HttpContext.Server.MapPath("~/imagens/folheto" + id);
+            System.IO.Directory.Delete(subPath, true);
+
+            try {
+                //db.Folhetos.Remove(aa);
+                db.Folhetos.Remove(folhetos);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch {
+                // gerar uma mensagem de erro, a ser apresentada ao utilizador
+                ModelState.AddModelError("",
+                           string.Format("Não foi possível remover o folheto porque existem tags: '{0}' e categorias: {1}  associadas a ele.",
+                                          folhetos.ListaDeTags, folhetos.ListaDeCategorias));
+            }
+            // reenviar os dados para a View
+            return View(folhetos);
+
         }
 
         #endregion

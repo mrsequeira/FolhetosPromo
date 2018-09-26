@@ -18,8 +18,9 @@ namespace MvcFolhetos.Models
             ListaDeTags = new HashSet<Tags>();
             ListaDeCategorias = new HashSet<Categorias>();
         }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)] // impede que um novo Agente tenha um ID automático
         public int FolhetosID { get; set; }
 
         [StringLength(100)]
@@ -41,6 +42,7 @@ namespace MvcFolhetos.Models
         [Display(Name = "Nome da empresa")]
         [Required(ErrorMessage = "Tens de preencher o campo {0} , dumb.")]
         public string NomeEmpresa { get; set; }
+
 
         public virtual ICollection<Tags> ListaDeTags { get; set; }
         public virtual ICollection<Categorias> ListaDeCategorias { get; set; }

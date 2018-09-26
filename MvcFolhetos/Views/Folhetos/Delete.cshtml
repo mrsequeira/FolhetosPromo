@@ -59,6 +59,17 @@
             @Html.DisplayFor(model => model.NomeEmpresa)
         </dd>
 
+        @*<div class="form-group">
+            <span class="control-label col-md-2">Tags associados ao folheto</span>
+            <div class="col-md-10">
+                @{ string selected = "";}
+                @foreach (var item in ViewBag.ListaDeTags)
+                {
+                    <input type="checkbox" name="opcoesEscolhidasDeTags" value="@item.ID" @selected /> @item.Info
+                    <br />
+                }
+            </div>
+        </div>*@
     </dl>
 
     @using (Html.BeginForm()) {

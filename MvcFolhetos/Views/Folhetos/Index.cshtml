@@ -4,159 +4,117 @@
     ViewBag.Title = "Lista de folhetos";
 }
 <style>
-    figure.snip1253 {
-        font-family: 'Karla';
-        color: #fff;
-        position: relative;
+    /** {
+        box-sizing: border-box;
+    }
+    .column {
         float: left;
-        overflow: hidden;
-        margin: 10px 1%;
-        min-width: 250px;
-        max-width: 310px;
-        width: 100%;
-        background-color: #ffffff;
-        color: #000000;
-        text-align: left;
-        font-size: 16px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+        width: 25%;
+        padding: 0 10px;
+    }
+    /* Remove extra left and right margins, due to padding in columns */
+
+
+    .card * {
+        font-family: 'Karla';
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
     }
 
-        figure.snip1253 * {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            -webkit-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
+    div.card:hover img,
+    div.card.hover img {
+        -webkit-transform: scale(1.10);
+        transform: scale(1.10);
+    }
 
-        figure.snip1253 .image {
-            max-height: 300px;
-            overflow: hidden;
-        }
+    .card-footer {
+        background-color: #e3f2fd;
+    }
 
-        figure.snip1253 img {
-            max-width: 100%;
-            vertical-align: top;
-            position: relative;
-        }
+    .card {
+        max-height: 600px;
+        display: inline-block; /* change the default display type to inline-block */
+        overflow: hidden; /* hide the overflow */
+    }
 
-        figure.snip1253 figcaption {
-            margin: -40px 15px 0;
-            padding: 15px;
-            position: relative;
-            background-color: #ffffff;
-        }
+    .card img {
+        max-height: 300px;
+        overflow: hidden;
+    }
 
-        figure.snip1253 .date {
-            background-color: #2980b9;
-            top: 15px;
-            color: #fff;
-            left: 15px;
-            min-height: 48px;
-            min-width: 48px;
-            position: absolute;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+    /*div.card-deck * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
 
-            figure.snip1253 .date span {
-                display: block;
-                line-height: 24px;
-            }
+    .card-img-top {
 
-        figure.snip1253 h3 {
-            margin: 0;
-            padding: 0;
-        }
+        vertical-align: top;
+        position: relative;
+    }
 
-        figure.snip1253 h3 {
-            min-height: 50px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            display: inline-block;
-            font-weight: 600;
-            text-transform: uppercase;
-            text-align: center;
-        }
-
-        figure.snip1253 footer {
-            padding: 0 25px;
-            background-color: #20638f;
-            color: #e6e6e6;
-            font-size: 0.8em;
-            line-height: 30px;
-            text-align: center;
-        }
-
-            figure.snip1253 footer > div {
-                display: inline-block;
-                margin-left: 10px;
-            }
-
-            figure.snip1253 footer i {
-                color: rgba(255, 255, 255, 0.2);
-                margin-right: 0px;
-            }
-
-        figure.snip1253 a {
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            position: absolute;
-            z-index: 1;
-        }
-
-        figure.snip1253:hover img,
-        figure.snip1253.hover img {
-            -webkit-transform: scale(1.15);
-            transform: scale(1.15);
-        }
+    div.card-deck {
+        max-width: 100%;
+        overflow: hidden;
+    }
 </style>
 
 
 <h2> Lista de folhetos </h2>
 
 <p>
-   
-    @Html.ActionLink("Criar novo folheto", "Create")
+    @if (Request.IsAuthenticated && User.IsInRole("GestaoDeFolhetos"))
+    { 
+        <button class="btn btn-outline-primary" href="/Folhetos/Create">
+            <i class="fas fa-plus-circle"></i>
+            @Html.ActionLink("Adição de um folheto ", "Create")
+        </button>
+    }
 
-
-    @using (Html.BeginForm())
+    @if (Request.IsAuthenticated)
     {
+        using (Html.BeginForm())
+        {
 <p>
-        Pesquisar por empresa: @Html.TextBox("SearchString")
-        <input type="submit" value="Pesquisar" />
-    </p>
-}
-    </p>
-    <div class="container">
+            Pesquisar por empresa: @Html.TextBox("SearchString")
+            <input type="submit" value="Pesquisar" />
+        </p>
+        }
+    }
+
+    <div class="row">
         @foreach (var item in Model)
         {
-            <figure class="snip1253">
+            <div class="col-sm-3 col-grid">
+                <div class="card">
 
-                <p> @Html.DisplayFor(modelItem => item.NomeEmpresa)</p>
-                <div class="image">
-                    <img src="~/imagens/folheto@(item.FolhetosID)/pagina1.jpeg" alt="sample52" />
-                </div>
-                <figcaption>
-                    <h3>@Html.DisplayFor(modelItem => item.Titulo) </h3>
-                </figcaption>
-                <footer>
-                    <div class="views">
-                        <i class="fas fa-calendar-alt"></i>
-                        @Html.DisplayFor(modelItem => item.DataInic)
-                        a
-                        @Html.DisplayFor(modelItem => item.DataFim)
+                    <div class="card text-center">
+
+                        <div class="card-header">@Html.DisplayFor(modelItem => item.Titulo) </div>
+                        @* Imagem do folheto. *@
+
+                        <img class="card-img-top" src="~/imagens/folheto@(item.FolhetosID)/pagina1.jpeg" />
+
+                        <div class="card-body">
+                            <h6 class="card-title">  @Html.DisplayFor(modelItem => item.NomeEmpresa) </h6>
+
+                        </div>
+                        @Html.ActionLink("Ver folheto", "Details", new { id = item.FolhetosID }, new { @class = "btn btn-primary" })
+                        <div class="card-footer text-muted">
+                            @Html.DisplayFor(modelItem => item.DataInic) a @Html.DisplayFor(modelItem => item.DataFim)
+                        </div>
                     </div>
-                </footer><a> @Html.ActionLink(" ", "Details", new { id = item.FolhetosID })</a>
-            </figure>
+                </div>
+            </div>
         }
-
     </div>
 
-    @if (this.User.IsInRole("GestaoDeFolhetos"))
+    <br />
+    @if (Request.IsAuthenticated && User.IsInRole("GestaoDeFolhetos"))
     {
         <table class="table">
             <tr>
@@ -167,8 +125,8 @@
                     @Html.DisplayNameFor(model => model.Descricao)
                 </th>
                 @*<th>
-                    @Html.DisplayNameFor(model => model.Files)
-                </th>*@
+                        @Html.DisplayNameFor(model => model.Files)
+                    </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.DataInic)
                 </th>
@@ -221,7 +179,7 @@
                             </div>
                         </td>*@
                     <td>
-                        @Html.ActionLink("Create", "Create", new { id = item.FolhetosID }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.FolhetosID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.FolhetosID }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.FolhetosID })
                     </td>

@@ -1,93 +1,222 @@
 ﻿@model MvcFolhetos.Models.Folhetos
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes do folheto";
 }
+<style>
+    /* Pure CSS Post Tags */
 
-<h2>Details</h2>
-<div>
-
-
-    <p>@Html.DisplayFor(model => model.Titulo)</p>
-    <p>@Html.DisplayFor(model => model.Descricao)</p>
-    <p> De @Html.DisplayFor(model => model.DataInic) a @Html.DisplayFor(model => model.DataFim)</p>
-    @for (var i = 1; i < @ViewBag.nPaginas + 1; i++)
-    {
-        <img srcset="@Url.Content("~/imagens/folheto" + ViewBag.id +"/pagina" + @i + ".jpeg")" width="100" height="147" />
+    body {
+        font-family: "Lucida Sans Unicode";
     }
 
-</div>
-<div>
-    <h4>Folhetos</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
+    .tags {
+        margin: 10;
+        padding: 0;
+        right: 24px;
+        bottom: -14px;
+        list-style: none;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
+        .tags li, .tags a {
+            float: left;
+            height: 26px;
+            line-height: 24px;
+            position: relative;
+            font-size: 14px;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
+        .tags a {
+            margin-left: 20px;
+            padding: 0 10px 0 12px;
+            background: #0089e0;
+            color: white;
+            text-decoration: none;
+            -moz-border-radius-bottomright: 4px;
+            -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            -moz-border-radius-topright: 4px;
+            -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Files)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Files)
-        </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataInic)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataInic)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataFim)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataFim)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NomeEmpresa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NomeEmpresa)
-        </dd>
-    </dl>
-
-    <div class="form-group">
-        <span class="control-label col-md-2">Tags associados ao folheto</span>
-        <div class="col-md-10">
-            @{ string selected = "";}
-            @foreach (var item in ViewBag.ListaDeTags)
-            {
-                selected = "";
-                foreach (int opcaoID in Model.ListaDeTags.Select(b => b.ID))
-                {
-                    if (item.ID == opcaoID) { selected = "checked"; }
-                }
-                <input type="checkbox" name="opcoesEscolhidasDeTags" value="@item.ID" @selected disabled /> @item.Info
-                <br />
+            .tags a:before {
+                content: "";
+                float: left;
+                position: absolute;
+                top: 0;
+                left: -12px;
+                width: 0;
+                height: 0;
+                border-color: transparent #0089e0 transparent transparent;
+                border-style: solid;
+                border-width: 12px 12px 14px 0;
             }
-        </div>
+
+            .tags a:after {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: 0;
+                float: left;
+                width: 4px;
+                height: 4px;
+                -moz-border-radius: 2px;
+                -webkit-border-radius: 2px;
+                border-radius: 2px;
+                background: #fff;
+                -moz-box-shadow: -1px -1px 2px #004977;
+                -webkit-box-shadow: -1px -1px 2px #004977;
+                box-shadow: -1px -1px 2px #004977;
+            }
+
+
+    .carousel-inner > .item > img {
+        text-align: center;
+        margin: 0 auto;
+    }
+</style>
+
+<br />
+<div class="text-center">
+    <i class="fas fa-arrow-alt-circle-left"> </i>
+    @if (ViewBag.id != 1)
+    {
+        @Html.ActionLink("Próximo folheto", "Details", new { id = ViewBag.id - 1 })
+    }
+    else
+    {
+        @Html.ActionLink("Voltar atrás", "Index")
+    }
+
+    ou
+    @Html.ActionLink("Próximo folheto", "Details", new { id = ViewBag.id + 1 })
+    <i class="fas fa-arrow-alt-circle-right"></i>
+</div>
+
+
+<h2>@Html.DisplayFor(model => model.Titulo)</h2>
+<p>@Html.DisplayFor(model => model.Descricao)</p>
+<p> <i class="fas fa-calendar-alt"></i> De @Html.DisplayFor(model => model.DataInic) a @Html.DisplayFor(model => model.DataFim)</p>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+
+        @for (var i = 1; i < @ViewBag.nPaginas + 1; i++)
+        {
+            if (i == 1)
+            {
+                <div class="carousel-item active text-center " style="background-color: #e3f2fd;">
+                    <img class=" " srcset="@Url.Content("~/imagens/folheto" + ViewBag.id +"/pagina" + @i + ".jpeg")" height="500" />
+                </div>
+            }
+            <div class="carousel-item text-center" style="background-color: #e3f2fd;">
+                <img class="  " srcset="@Url.Content("~/imagens/folheto" + ViewBag.id +"/pagina" + @i + ".jpeg")" height="500" />
+            </div>
+        }
+
+
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.FolhetosID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="post">
+    <ul class="tags">
+        @foreach (var item in ViewBag.ListaDeTags)
+        {
+            foreach (int opcaoID in Model.ListaDeTags.Select(b => b.ID))
+            {
+                //está associado ao folheto
+                if (item.ID == opcaoID)
+                {
+                    <li><a>@item.Info</a></li>
+                }
+            }
+        }
+
+    </ul>
+</div>
+
+
+@if (Request.IsAuthenticated && User.IsInRole("GestaoDeFolhetos"))
+{
+    <div>
+
+        <h4>Folhetos</h4>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Titulo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DataInic)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataInic)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataFim)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NomeEmpresa)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NomeEmpresa)
+            </dd>
+        </dl>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Tags associados ao folheto</span>
+            <div class="col-md-10">
+                @{ string selected = "";}
+                @foreach (var item in ViewBag.ListaDeTags)
+                {
+                    selected = "";
+                    foreach (int opcaoID in Model.ListaDeTags.Select(b => b.ID))
+                    {
+                        if (item.ID == opcaoID) { selected = "checked"; }
+                    }
+                    <input type="checkbox" name="opcoesEscolhidasDeTags" value="@item.ID" @selected disabled /> @item.Info
+                    <br />
+                }
+            </div>
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.FolhetosID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

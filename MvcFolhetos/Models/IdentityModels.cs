@@ -49,16 +49,7 @@ namespace IdentitySample.Models
         public virtual DbSet<Categorias> Categorias { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
         public virtual DbSet<Utilizadores> Utilizadores { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();  // impede a EF de 'pluralizar' os nomes das tabelas
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
-
-            base.OnModelCreating(modelBuilder);
-        }
-
+       
         /// <summary>
         /// Usa a sequência definida em <see cref="Multas_tA.Migrations.SequenciaIdAgentes"/>
         /// para obter, de forma atómica, o ID de um agente.
@@ -79,5 +70,13 @@ namespace IdentitySample.Models
                 .Single();
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();  // impede a EF de 'pluralizar' os nomes das tabelas
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();  // força a que a chave forasteira não tenha a propriedade 'on delete cascade'
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

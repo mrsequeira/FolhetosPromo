@@ -5,60 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href='https://fonts.googleapis.com/css?family=Karla' rel='stylesheet'>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <style>
-        #page-wrap {
+        /*#page-wrap {
             width: 800px;
             margin: 0 auto;
-        }
+        }*/
+        /*body {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            grid-template-rows: 60px 1fr;
 
-        .nav.navbar-nav.navbar-right li a  {
+        }*/
+        .nav.navbar-nav.navbar-right li a {
             color: white;
-            font-family:'Karla';
+            font-family: 'Karla';
         }
     </style>
 </head>
 <body>
     <div id="page-wrap">
-        <nav class="navbar navbar-dark navbar-inverse navbar-fixed-top" style="background-color: #C21807;">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">200 por cento</a>
-                   
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <a class="navbar-brand" href="/"><i class="fas fa-piggy-bank"></i> 200 por cento</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="navbar-nav nav-link">
+                            @Html.ActionLink("Informações", "Index", "Info")
+                        </li>
 
                         @if (Request.IsAuthenticated && User.IsInRole("GestaoDeFolhetos"))
                         {
-                            <li>@Html.ActionLink("Gerir Tags", "Index", "Tags")</li>
+                            <li class="navbar-nav nav-link">
+                                @Html.ActionLink("Gerir Tags", "Index", "Tags")
+                            </li>
+                            <li class="navbar-nav nav-link">
+                                @Html.ActionLink("Gerir Users", "Index", "Utilizadores")
+                            </li>
                         }
 
-                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                            <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
-                        }
+                        @Html.Partial("_LoginPartial")
+
                     </ul>
-                    @Html.Partial("_LoginPartial")
                 </div>
             </div>
         </nav>
+
     </div>
-    
+
     <div class="container body-content">
         @RenderBody()
- 
+        <br />
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>*@
     </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
