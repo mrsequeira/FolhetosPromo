@@ -9,17 +9,13 @@ namespace MvcFolhetos.Models
 { //: IdentityUser
     public class Utilizadores 
     {
-        /// <summary>
-        /// os atributos q aqui vão ser adicionados
-        /// serão adicionados à tabela dos utilizadores
-        /// </summary>
-
         [Key]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        [Display(Name = "Nome próprio")]
+
         public string NomeProprio { get; set; }
+
+
         public string Apelido { get; set; }
 
 

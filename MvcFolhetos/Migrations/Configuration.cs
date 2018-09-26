@@ -62,7 +62,12 @@ namespace MvcFolhetos.Migrations
                new Categorias {ID =2, Nome ="Roupa"  },
                new Categorias {ID =3, Nome ="Tecnologia" },
                new Categorias {ID =4, Nome ="Livros" },
-               new Categorias {ID =5, Nome ="Casa e Docração" }
+               new Categorias {ID =5, Nome ="Casa e Decoração" },
+               new Categorias {ID =6, Nome ="Casa " },
+               new Categorias {ID =7, Nome ="Casa e Docração" },
+               new Categorias {ID =8, Nome ="Casa e Docração" },
+               new Categorias {ID =9, Nome ="Casa e Docração" },
+               new Categorias {ID =10,Nome ="Casa e Docração" }
             };
             categorias.ForEach(ll => context.Categorias.AddOrUpdate(l => l.ID, ll));
             try
@@ -108,7 +113,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,1),
                     NomeEmpresa="Pingo Doce",
                     ListaDeTags = new List<Tags>{ tags[0], tags[1], tags[2] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[1] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[1], categorias[4], categorias[5] }
                },
                new Folhetos {
                     FolhetosID =3,
@@ -118,7 +123,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,1),
                     NomeEmpresa="Continente",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[2], categorias[9], categorias[8] }
                },
                 new Folhetos {
                     FolhetosID =4,
@@ -128,7 +133,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,1),
                     NomeEmpresa ="PingoDoce",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[2], categorias[1], categorias[0] }
                 },
                new Folhetos {
                     FolhetosID =5,
@@ -138,7 +143,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,31),
                     NomeEmpresa ="PingoDoce",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[2], categorias[5], categorias[6] }
                },
                new Folhetos {
                     FolhetosID =6,
@@ -147,7 +152,7 @@ namespace MvcFolhetos.Migrations
                     DataInic =new DateTime(2018,5,3), DataFim=new DateTime(2018,5,6),
                     NomeEmpresa ="CODE-PingoDoce",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[2], categorias[8], categorias[9] }
                },
                new Folhetos {
                     FolhetosID =7,
@@ -156,7 +161,7 @@ namespace MvcFolhetos.Migrations
                     DataInic =new DateTime(2018,5,2), DataFim=new DateTime(2018,5,7),
                     NomeEmpresa ="Continente",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[2], categorias[4], categorias[7], categorias[6] }
                },
                new Folhetos {
                     FolhetosID =8,
@@ -166,7 +171,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,9),
                     NomeEmpresa ="Minipreço",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[0], categorias[1] }
 
                },
                new Folhetos {
@@ -177,7 +182,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,10),
                     NomeEmpresa ="Jumbo",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[1], categorias[2], categorias[5] }
                },
                new Folhetos {FolhetosID=10,
                     Titulo ="Antevisão Folheto INTERMARCHÉ Promoções de 3 a 9 maio",
@@ -186,7 +191,7 @@ namespace MvcFolhetos.Migrations
                     DataFim =new DateTime(2018,5,3),
                     NomeEmpresa ="Intermarché",
                     ListaDeTags = new List<Tags>{ tags[3] },
-                    ListaDeCategorias = new List<Categorias>{ categorias[2] }
+                    ListaDeCategorias = new List<Categorias>{ categorias[1], categorias[2], categorias[5] }
                }
 
             };

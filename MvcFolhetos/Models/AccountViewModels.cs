@@ -90,8 +90,17 @@ namespace IdentitySample.Models
         //Objeto do tipo utilizador para associar todos os atributos
         public Utilizadores Utilizador { get; set; }
 
+
+        [StringLength(40)]
+        [RegularExpression("[A-ZÁÂÉÍÓÚ][a-záàâãäèéêëìíîïòóôõöùúûüç]+(-| )((da|de|do|das|dos) )?[A-ZÁÂÉÍÓÚ][a-záàâãäèéêëìíîïòóôõöùúûüç]+", ErrorMessage = "O {0} é constituído apenas por letras e começa obrigatoriamente por uma maiúscula.")]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         [Display(Name = "Nome Próprio")]
         public string NomeProprio { get; set; }
+
+
+        [StringLength(40)]
+        [RegularExpression("[A-ZÁÂÉÍÓÚ][a-záàâãäèéêëìíîïòóôõöùúûüç]+(-| )((da|de|do|das|dos) )?[A-ZÁÂÉÍÓÚ][a-záàâãäèéêëìíîïòóôõöùúûüç]+", ErrorMessage = "O {0} é constituído apenas por letras e começa obrigatoriamente por uma maiúscula.")]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Apelido { get; set; }
 
     }

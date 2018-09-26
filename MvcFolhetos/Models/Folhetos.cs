@@ -23,8 +23,9 @@ namespace MvcFolhetos.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)] // impede que um novo Agente tenha um ID automático
         public int FolhetosID { get; set; }
 
-        [StringLength(100)]
-        [Required(ErrorMessage = "Tens de preencher o campo {0} , dumb.")]
+        [StringLength(75)]
+        
+        [Required(ErrorMessage = "Tens de preencher o campo {0}")]
         public string Titulo { get; set; }
 
         public string Descricao { get; set; }
@@ -40,7 +41,7 @@ namespace MvcFolhetos.Models
         public DateTime DataFim { get; set; }
 
         [Display(Name = "Nome da empresa")]
-        [Required(ErrorMessage = "Tens de preencher o campo {0} , dumb.")]
+        [Required(ErrorMessage = "Tens de preencher o campo {0}")]
         public string NomeEmpresa { get; set; }
 
 

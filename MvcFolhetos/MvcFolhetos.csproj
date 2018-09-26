@@ -215,10 +215,6 @@
     <Compile Include="Migrations\201809231755562_sequence.Designer.cs">
       <DependentUpon>201809231755562_sequence.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809241419598_getID.cs" />
-    <Compile Include="Migrations\201809241419598_getID.Designer.cs">
-      <DependentUpon>201809241419598_getID.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -363,7 +359,6 @@
     <Content Include="Views\Utilizadores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Info\" />
   </ItemGroup>
   <ItemGroup>
@@ -380,9 +375,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809231755562_sequence.resx">
       <DependentUpon>201809231755562_sequence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809241419598_getID.resx">
-      <DependentUpon>201809241419598_getID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

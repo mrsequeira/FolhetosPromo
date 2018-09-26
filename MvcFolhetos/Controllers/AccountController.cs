@@ -175,6 +175,7 @@ namespace IdentitySample.Controllers
                         db.Utilizadores.Add(utilizador);
                         db.SaveChanges();
                     }
+
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("Nao foram guardados os dados do utilizador");
@@ -191,6 +192,8 @@ namespace IdentitySample.Controllers
                     }
                     //await UserManager.lo
                     //Se for criado com sucesso efetua login
+                    //await UserManager.CreateAsync(user, model.Password);
+                    //TempData["ViewBagLink"] = callbackUrl;
                     //await UserManager.SignInAsync(user, isPersistent: false);
                     //return RedirectToAction("Index", "Home");
 

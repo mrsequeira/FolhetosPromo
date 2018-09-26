@@ -116,7 +116,8 @@ namespace IdentitySample.Models
     }
 
     // This is useful if you do not want to tear down the database each time you run the application.
-    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> (para demo apenas)
+    //  DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     // This example shows you how to create a new database if the Model changes
     public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
@@ -154,8 +155,6 @@ namespace IdentitySample.Models
                 var result = userManager.AddToRole(user.Id, role.Name);
             }
         }
-
-
     }
 
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>

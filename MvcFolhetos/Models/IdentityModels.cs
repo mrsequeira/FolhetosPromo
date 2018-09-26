@@ -51,13 +51,13 @@ namespace IdentitySample.Models
         public virtual DbSet<Utilizadores> Utilizadores { get; set; }
        
         /// <summary>
-        /// Usa a sequência definida em <see cref="Multas_tA.Migrations.SequenciaIdAgentes"/>
-        /// para obter, de forma atómica, o ID de um agente.
+        /// Usa a sequência definida na seed  sequence
+        /// para obter, de forma atómica, o ID de um folheto.
         /// </summary>
-        /// <returns>O próximo ID do agente.</returns>
+        /// <returns>O próximo ID do folheto.</returns>
         public int GetIdFolheto()
         {
-            // Um objeto que derive da classe "DbContext" (como o MultasDb)
+            // Um objeto que derive da classe "DbContext"
             // permite que seja executado SQL "raw", como no exemplo abaixo.
             return this.Database
                 // <int> define o tipo de dados. Pode ser uma classe, os valores dos campos

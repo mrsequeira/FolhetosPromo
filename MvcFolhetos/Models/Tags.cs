@@ -19,7 +19,7 @@ namespace MvcFolhetos.Models
         public int ID { get; set; }
 
         [StringLength(30)]
-        [Required(ErrorMessage = "Tens de preencher o campo {0} , dumb.")]
+        [Required(ErrorMessage = "Tens de preencher o campo {0}")]
         public string Info { get; set; }
 
         // definição do atributo que será utilizado para exprimir o relacionamento

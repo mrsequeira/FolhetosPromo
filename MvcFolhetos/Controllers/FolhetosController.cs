@@ -53,7 +53,7 @@ namespace MvcFolhetos.Controllers
                 return HttpNotFound();
             }
             
-            var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens\\folheto" + id;
+            var path = HttpContext.Server.MapPath("~/imagens/folheto" + id);
             //var path = "~/imagens/folheto" + id ;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
             int count = dir.GetFiles().Length;
@@ -121,9 +121,6 @@ namespace MvcFolhetos.Controllers
                 NomeEmpresa = folhetos.NomeEmpresa
             };
             string subPath = "";
-            //int newID = 0;
-            //newfolheto.FolhetosID = db.GetIdFolheto();
-       
             subPath = HttpContext.Server.MapPath("~/imagens/folheto" + newfolheto.FolhetosID);
             System.IO.Directory.CreateDirectory(subPath);
      
@@ -192,7 +189,7 @@ namespace MvcFolhetos.Controllers
             {
                 return HttpNotFound();
             }
-            var path = "C:\\Users\\AlexandredosSantosSe\\dev\\MvcFolhetos\\MvcFolhetos\\imagens\\folheto" + id;
+            var path = HttpContext.Server.MapPath("~/imagens/folheto" + id); 
             //var path = "~/imagens/folheto" + id ;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(path);
             int count = dir.GetFiles().Length;
@@ -203,7 +200,7 @@ namespace MvcFolhetos.Controllers
             return View(folhetos);
         }
 
-        //[Authorize(Roles = "GestaoDeFolhetos")]
+        [Authorize(Roles = "GestaoDeFolhetos")]
         // POST: Folhetos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -324,30 +321,6 @@ namespace MvcFolhetos.Controllers
 
             var aa = db.Folhetos.Include(b => b.ListaDeTags).Where(b => b.FolhetosID == folhetos.FolhetosID).SingleOrDefault();
             System.Diagnostics.Debug.WriteLine(aa);
-            // obter a lista de elementos de B
-            //var elementosDeTags = db.Tags.ToList();
-
-            //if (opcoesEscolhidasDeTags != null)
-            //{
-            //    // se existirem opções escolhidas, vamos associá-las
-            //    foreach (var bb in elementosDeTags)
-            //    {
-            //        if (opcoesEscolhidasDeTags.Contains(bb.ID.ToString()))
-            //        {
-            //            // se uma opção escolhida ainda não está associada, cria-se a associação
-            //            if (!aa.ListaDeTags.Contains(bb))
-            //            {
-            //                aa.ListaDeTags.Add(bb);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            // caso exista associação para uma opção que não foi escolhida, 
-            //            // remove-se essa associação
-            //            aa.ListaDeTags.Remove(bb);
-            //        }
-            //    }
-            //}
             string subPath = "";
             subPath = HttpContext.Server.MapPath("~/imagens/folheto" + id);
             System.IO.Directory.Delete(subPath, true);
